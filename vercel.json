@@ -1,0 +1,13 @@
+{
+  "$schema": "https://openapi.vercel.sh/vercel.json",
+  "framework": null,
+  "installCommand": "npm ci",
+  "buildCommand": "npm run build",
+  "outputDirectory": "web",
+  "headers": [
+    {
+      "source": "/vendor/(.*)",
+      "headers": [{ "key": "Cache-Control", "value": "public, max-age=604800" }]
+    }
+  ]
+}

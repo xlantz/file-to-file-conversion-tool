@@ -1,0 +1,15 @@
+{
+  "name": "file-to-file-conversion-tool",
+  "private": true,
+  "description": "Browser-based file converter (static site, no server)",
+  "scripts": {
+    "build": "node scripts/copy-vendor.mjs"
+  },
+  "dependencies": {
+    "@tesseract.js-data/eng": "1.0.0",
+    "jspdf": "4.2.1",
+    "jszip": "3.10.1",
+    "pdfjs-dist": "6.4.299",
+    "tesseract.js": "7.0.0"
+  }
+}
