@@ -1,0 +1,104 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>File Converter</title>
+  <meta name="description" content="Convert files or whole folders to Word, Excel, CSV, text or PDF. Runs entirely in your browser — nothing is uploaded.">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect x='6' y='3' width='20' height='26' rx='3' fill='%232f6fde'/><path d='M11 12h10M11 17h10M11 22h6' stroke='white' stroke-width='2' stroke-linecap='round'/></svg>">
+  <link rel="stylesheet" href="styles.css">
+  <script src="vendor/jszip/jszip.min.js" defer></script>
+  <script src="vendor/jspdf/jspdf.umd.min.js" defer></script>
+  <script type="module" src="js/app.js"></script>
+</head>
+<body>
+  <main class="wrap">
+    <header class="intro">
+      <h1>File Converter</h1>
+      <p>Convert a file — or a whole folder of them — to Word, Excel, CSV, text or PDF.
+        Everything runs in your browser, so <strong>your files are never uploaded</strong>.</p>
+    </header>
+
+    <section class="card" aria-labelledby="step1">
+      <h2 id="step1"><span class="step">1</span> Choose what to convert</h2>
+
+      <div id="dropzone" class="dropzone" tabindex="-1">
+        <svg class="drop-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M3 7a2 2 0 0 1 2-2h4l2 2h8a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/><path d="M12 10v6m-3-3 3-3 3 3" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        <p class="drop-title">Drop a folder or files here</p>
+        <div class="drop-actions">
+          <button type="button" class="btn" id="pick-folder">Choose folder</button>
+          <button type="button" class="btn btn-ghost" id="pick-files">Choose files</button>
+        </div>
+        <input type="file" id="folder-input" webkitdirectory multiple hidden>
+        <input type="file" id="file-input" multiple hidden>
+      </div>
+
+      <div id="selection" class="selection" hidden>
+        <div class="selection-head">
+          <p id="selection-summary" class="summary"></p>
+          <label class="check" id="subfolders-wrap" hidden>
+            <input type="checkbox" id="subfolders" checked> Include subfolders
+          </label>
+          <button type="button" class="link-btn" id="clear">Clear</button>
+        </div>
+        <ul id="file-list" class="file-list"></ul>
+        <p id="skipped" class="note" hidden></p>
+      </div>
+    </section>
+
+    <section class="card" aria-labelledby="step2" id="options-card">
+      <h2 id="step2"><span class="step">2</span> Choose how to export</h2>
+
+      <fieldset id="mode-field" class="field" hidden>
+        <legend>Export as</legend>
+        <div class="choice-grid">
+          <label class="choice">
+            <input type="radio" name="mode" value="combined" checked>
+            <span class="choice-body"><strong>One combined file</strong><small>Every file's contents in one document, each labelled with its file name</small></span>
+          </label>
+          <label class="choice">
+            <input type="radio" name="mode" value="separate">
+            <span class="choice-body"><strong>Separate files</strong><small>One converted file per input, downloaded together as a .zip</small></span>
+          </label>
+        </div>
+      </fieldset>
+
+      <fieldset class="field">
+        <legend>File type</legend>
+        <div class="segmented" id="format-group">
+          <label><input type="radio" name="format" value="word" checked><span>Word</span></label>
+          <label><input type="radio" name="format" value="excel"><span>Excel</span></label>
+          <label><input type="radio" name="format" value="csv"><span>CSV</span></label>
+          <label><input type="radio" name="format" value="txt"><span>Text</span></label>
+          <label><input type="radio" name="format" value="pdf"><span>PDF</span></label>
+        </div>
+        <p class="hint" id="format-hint"></p>
+      </fieldset>
+
+      <div class="field">
+        <label for="out-name" class="label" id="out-name-label">File name</label>
+        <div class="name-row">
+          <input type="text" id="out-name" autocomplete="off" spellcheck="false" placeholder="converted">
+          <span class="ext" id="out-ext">.docx</span>
+        </div>
+      </div>
+
+      <button type="button" class="btn btn-primary" id="convert" disabled>Convert</button>
+    </section>
+
+    <section class="card" id="result-card" aria-live="polite" hidden>
+      <h2><span class="step">3</span> <span id="result-title">Converting…</span></h2>
+      <div class="progress" role="progressbar" aria-valuemin="0" aria-valuemax="100" id="progress"><div id="progress-bar"></div></div>
+      <p id="status" class="status"></p>
+      <a id="download" class="btn btn-primary" hidden>Download</a>
+      <p id="failures" class="error-note" hidden></p>
+    </section>
+
+    <footer class="foot">
+      <p><strong>Reads:</strong> PDF (including scanned pages), Word (.docx), PowerPoint (.pptx), Excel (.xlsx), CSV/TSV, text, and images (PNG, JPG, BMP, WebP, GIF) via text recognition.
+        Older .doc / .xls / .ppt files need to be re-saved in the newer format first.</p>
+      <p>The first scanned page or image takes a little longer while the text-recognition engine loads.</p>
+    </footer>
+  </main>
+</body>
+</html>
