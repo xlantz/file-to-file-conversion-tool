@@ -28,6 +28,13 @@ or API, so hosting is free, there are no upload size limits, and files stay priv
 The site is static. The build step only copies the browser libraries out of `node_modules`
 into `web/vendor/` (about 21 MB, mostly the OCR engine), so nothing depends on a third-party CDN.
 
+**GitHub Pages (free for public repos) — the default for this repo**
+
+`.github/workflows/pages.yml` builds and publishes the site on every push to `main`.
+One-time setup: repo *Settings → Pages → Build and deployment → Source:* **GitHub Actions**.
+The site is then live at https://xlantz.github.io/file-to-file-conversion-tool/
+(to redeploy by hand: *Actions → Deploy to GitHub Pages → Run workflow*).
+
 **Vercel (Hobby plan, free — personal / non-commercial use)**
 1. Go to vercel.com → *Add New… → Project* → import this GitHub repo.
 2. Leave everything as detected — `vercel.json` already sets the build command
@@ -37,7 +44,7 @@ into `web/vendor/` (about 21 MB, mostly the OCR engine), so nothing depends on a
 1. dash.cloudflare.com → *Workers & Pages → Create → Pages → Connect to Git* → pick this repo.
 2. Build command: `npm run build` · Build output directory: `web` · Deploy.
 
-Both redeploy automatically on every push.
+All three redeploy automatically on every push.
 
 ### Run locally
 
